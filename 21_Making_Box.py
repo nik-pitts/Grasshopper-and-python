@@ -5,6 +5,15 @@ import Rhino as rh
 #Size will be a parametric variable imported from Rhino to GH 
 #A simpler script making box will be further developed.
 
+#Generating vectors using loop to simplify code(On going)
+vec_component=[0,1]
+vectors=[]
+for a in vec_component:
+    for b in vec_component[a:]:
+        for c in vec_component[a+1:]:
+            vectors.append([a,b,c])
+print vectors
+
 point = rs.coerce3dpoint(guide_point)
 
 mo1 = rs.CopyObject(guide_point, [0,0,0])
