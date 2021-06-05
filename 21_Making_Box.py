@@ -1,32 +1,24 @@
 import rhinoscriptsyntax as rs
 import Rhino as rh
+from itertools import product
 
-#Guide point will be imported from Rhino to GH
-#Size will be a parametric variable imported from Rhino to GH 
-#A simpler script making box will be further developed.
-
-#Generating vectors using loop to simplify code(On going)
-vec_component=[0,1]
-vectors=[]
-for a in vec_component:
-    for b in vec_component[a:]:
-        for c in vec_component[a+1:]:
-            vectors.append([a,b,c])
-print vectors
+#Guide point will be imported from Rhino
+#Size will be a parametric variable imported from GH 
+#A simpler script making a box is developed, using itertools moudle in python.
 
 point = rs.coerce3dpoint(guide_point)
 
-mo1 = rs.CopyObject(guide_point, [0,0,0])
-mo2 = rs.CopyObject(guide_point, [0,size,0])
-mo3 = rs.CopyObject(guide_point, [size,size,0])
-mo4 = rs.CopyObject(guide_point, [size,0,0])
-mo5 = rs.CopyObject(guide_point, [0,0,size])
-mo6 = rs.CopyObject(guide_point, [0,size,size])
-mo7 = rs.CopyObject(guide_point, [size,size,size])
-mo8 = rs.CopyObject(guide_point, [size,0,size])
+vec_list = [0, size]
+points = []
 
-corners = [mo1, mo2, mo3, mo4, mo5, mo6, mo7, mo8]
+#making all possible rectangle box points
 
-box = rs.AddBox(corners)
+for vec in product(vec_list, repeat=3):
+    points.append(vec)
+
+print points # All possible rectangle box points
+print len(points) # Should be 8
+
+box = rs.AddBox(points)
 
 a = box
