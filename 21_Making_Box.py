@@ -6,7 +6,7 @@ from itertools import product
 #Size will be a parametric variable imported from GH 
 #A simpler script making a box is developed, using itertools moudle in python.
 
-point = rs.coerce3dpoint(guide_point)
+gp = rs.coerce3dpoint(guide_point)
 
 vec_list = [0, size]
 points = []
@@ -22,3 +22,19 @@ print len(points) # Should be 8
 box = rs.AddBox(points)
 
 a = box
+
+#x-axis array
+#copy guide point based on size.
+#user can decide how much they want to array in x direction.
+#n is a parameter given by grasshopper.
+
+copy_points = []
+repeat = 1
+
+while repeat<n:
+    raw_copy_gp = rs.CopyObject(gp, [repeat*size,0,0])
+    copy_gp = rs.coerce3dpoint(raw_copy_gp)
+    copy_points.append(copy_gp)
+    repeat = repeat+1
+
+print copy_points
