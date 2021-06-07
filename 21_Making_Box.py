@@ -8,28 +8,14 @@ from itertools import product
 
 gp = rs.coerce3dpoint(guide_point)
 
-vec_list = [0, size]
-points = []
-
-#making all possible rectangle box points
-
-for vec in product(vec_list, repeat=3):
-    points.append(vec)
-
-print points # All possible rectangle box points
-print len(points) # Should be 8
-
-box = rs.AddBox(points)
-
-a = box
-
 #x-axis array
 #copy guide point based on size.
 #user can decide how much they want to array in x direction.
 #n is a parameter given by grasshopper.
 
 copy_points = []
-repeat = 1
+#Change repeat num to 0, sarting from first point of box.
+repeat = 0
 
 while repeat<n:
     raw_copy_gp = rs.CopyObject(gp, [repeat*size,0,0])
@@ -37,4 +23,21 @@ while repeat<n:
     copy_points.append(copy_gp)
     repeat = repeat+1
 
-print copy_points
+#making boxes at each arrayed points.
+
+vec_list = [0, size]
+points = []
+
+#making all possible rectangle box points
+
+for i in copy_points:
+    x_cor = rs.coerce3dpoint(i) #should extract x coordinates
+    vec_list = [x_cor, size]
+    for vec in product(vec_list, repeat=3):
+        points.append(vec)
+
+# making box
+
+box = rs.AddBox(points)
+
+a = box
