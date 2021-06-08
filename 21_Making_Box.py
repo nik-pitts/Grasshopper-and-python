@@ -1,20 +1,19 @@
 import rhinoscriptsyntax as rs
 import Rhino as rh
-from itertools import product
+from itertools import product, permutations
 
-#Guide point will be imported from Rhino
-#Size will be a parametric variable imported from GH 
-#A simpler script making a box is developed, using itertools moudle in python.
+#Guide point will be imported from Rhino to GH
+#Size will be a parametric variable imported from Rhino to GH 
+#More simpler script making box will be further developed.
 
 gp = rs.coerce3dpoint(guide_point)
 
 #x-axis array
 #copy guide point based on size.
 #user can decide how much they want to array in x direction.
-#n is a parameter given by grasshopper.
 
 copy_points = []
-#Change repeat num to 0, sarting from first point of box.
+
 repeat = 0
 
 while repeat<n:
@@ -23,21 +22,31 @@ while repeat<n:
     copy_points.append(copy_gp)
     repeat = repeat+1
 
-#making boxes at each arrayed points.
+print copy_points[2][0]
+print len(copy_points)
 
-vec_list = [0, size]
-points = []
+box_list = []
 
 #making all possible rectangle box points
 
-for i in copy_points:
-    x_cor = rs.coerce3dpoint(i) #should extract x coordinates
-    vec_list = [x_cor, size]
-    for vec in product(vec_list, repeat=3):
-        points.append(vec)
+indicator = 0
 
-# making box
+while indicator<len(copy_points):
+    points = []
+    if indicator == 0:
+        vec_list = [copy_points[indicator][0], size]
+        indicator = indicator + 1
+        for vec in product(vec_list, repeat=3):
+            points.append(vec)
+    else:
+        vec_list = [copy_points[indicator][0], size*(indicator+1),0]
+        indicator = indicator + 1
+        for vec in product(vec_list, repeat=3): #making combinations should be changed.
+            points.append(vec)
 
-box = rs.AddBox(points)
+    print points
+    box = rs.AddBox(points)
+    points = [] #making points list as default
+    box_list.append(box)
 
-a = box
+a = box_list
