@@ -39,9 +39,10 @@ while indicator<len(copy_points):
         for vec in product(vec_list, repeat=3):
             points.append(vec)
     else:
-        x = [copy_points[indicator][0], size*(indicator+1)]
-        y = [copy_points[indicator][0], size*(indicator+1)]
-        z = [copy_points[indicator][0],0.0]
+        starting_x=copy_points[indicator][0]
+        x = [starting_x, starting_x+size]
+        y = [size,0.0]
+        z = [size,0.0]
         
         for u in x:
             for v in y:
