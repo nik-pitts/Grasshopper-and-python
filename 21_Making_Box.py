@@ -41,7 +41,8 @@ while indicator<len(copy_points):
     else:
         vec_list = [copy_points[indicator][0], size*(indicator+1),0]
         indicator = indicator + 1
-        for vec in product(vec_list, repeat=3): #making combinations should be changed.
+        for vec in product(vec_list, repeat=3): 
+            #considering how points are made, especially now boxes are only arrayed in x-aixs.
             points.append(vec)
 
     print points
