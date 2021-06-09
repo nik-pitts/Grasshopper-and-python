@@ -39,11 +39,16 @@ while indicator<len(copy_points):
         for vec in product(vec_list, repeat=3):
             points.append(vec)
     else:
-        vec_list = [copy_points[indicator][0], size*(indicator+1),0]
+        x = [copy_points[indicator][0], size*(indicator+1)]
+        y = [copy_points[indicator][0], size*(indicator+1)]
+        z = [copy_points[indicator][0],0.0]
+        
+        for u in x:
+            for v in y:
+                for w in z:
+                    cor = (u,v,w)
+                    points.append(cor)
         indicator = indicator + 1
-        for vec in product(vec_list, repeat=3): 
-            #considering how points are made, especially now boxes are only arrayed in x-aixs.
-            points.append(vec)
 
     print points
     box = rs.AddBox(points)
