@@ -33,23 +33,17 @@ indicator = 0
 
 while indicator<len(copy_points):
     points = []
-    if indicator == 0:
-        vec_list = [copy_points[indicator][0], size]
-        indicator = indicator + 1
-        for vec in product(vec_list, repeat=3):
-            points.append(vec)
-    else:
-        starting_x=copy_points[indicator][0]
-        x = [starting_x, starting_x+size]
-        y = [size,0.0]
-        z = [size,0.0]
-        
-        for u in x:
-            for v in y:
-                for w in z:
-                    cor = (u,v,w)
-                    points.append(cor)
-        indicator = indicator + 1
+    starting_x=copy_points[indicator][0]
+    x = [starting_x, starting_x+size]
+    y = [size,0.0]
+    z = [size,0.0]
+    
+    for u in x:
+        for v in y:
+            for w in z:
+                cor = (u,v,w)
+                points.append(cor)
+    indicator = indicator + 1
 
     print points
     box = rs.AddBox(points)
