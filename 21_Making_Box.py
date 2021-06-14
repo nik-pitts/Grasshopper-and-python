@@ -21,20 +21,17 @@ while repeat<n:
     copy_points.append(copy_gp)
     repeat = repeat+1
 
-print copy_points[2][0]
-print len(copy_points)
-
-box_list = []
-y_box_list = []
+boxes = []
+square_boxes = []
+cube_boxes = []
 
 #making all possible rectangle box points
 
-indicator = 0
+x_guide = 0
 
-while indicator<len(copy_points):
+while x_guide<len(copy_points):
     points = []
-    starting_x=copy_points[indicator][0]
-    starting_y=copy_points[indicator][1]
+    starting_x=copy_points[x_guide][0]
     x = [starting_x, starting_x+size]
     y = [size,0.0]
     z = [size,0.0]
@@ -45,22 +42,32 @@ while indicator<len(copy_points):
                 cor = (u,v,w)
                 points.append(cor)
 
-    print points
     box = rs.AddBox(points)
     points = [] #making points list as default
-    box_list.append(box)
+    boxes.append(box)
     
     #making vectors & copy to y direction
     
-    y_guide = 1
+    y_guide = 0
     
     while y_guide<n:
         y_vec = [0,size*y_guide,0]
         y_copy_box = rs.CopyObject(box, y_vec)
-        y_box_list.append(y_copy_box)
+        square_boxes.append(y_copy_box)
         y_guide = y_guide+1
-    
-    indicator = indicator + 1
 
-a = box_list
-b= y_box_list
+        #making vectors & copy to z direction
+        
+        z_guide = 1
+        
+        while z_guide<n:
+            z_vec = [0,0,size*z_guide]
+            z_copy_box = rs.CopyObject(y_copy_box, z_vec)
+            cube_boxes.append(z_copy_box)
+            z_guide = z_guide+1
+    
+    x_guide = x_guide + 1
+    boxes = []
+
+a = square_boxes
+b = cube_boxes
