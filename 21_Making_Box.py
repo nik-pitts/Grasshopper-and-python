@@ -42,6 +42,11 @@ while x_guide<len(copy_points):
                 cor = (u,v,w)
                 points.append(cor)
 
+    points = sorted(points, key=lambda x : (x[2],x[1]))
+    points[2], points[3] = points[3], points[2]
+    points[6], points[7] = points[7], points[6]
+    print points
+
     box = rs.AddBox(points)
     points = [] #making points list as default
     boxes.append(box)
@@ -69,5 +74,4 @@ while x_guide<len(copy_points):
     x_guide = x_guide + 1
     boxes = []
 
-a = square_boxes
-b = cube_boxes
+a = square_boxes + cube_boxes
