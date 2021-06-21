@@ -20,5 +20,10 @@ for i in geo_list:
     centroid = geo_analysis.Centroid
     centroid_list.append(centroid)
 
-print len(centroid_list)
+centroid_scaled = []
 
+for i in centroid_list:
+    centroid_scaled.append(i*y) #y is a variable given by users.
+
+a = centroid_list
+b = centroid_scaled
