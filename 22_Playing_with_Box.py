@@ -23,7 +23,15 @@ for i in geo_list:
 centroid_scaled = []
 
 for i in centroid_list:
-    centroid_scaled.append(i*y) #y is a variable given by users.
+    centroid_scaled.append(i*y)
+    
+#making vectors for movement and move original cubes to moved points.
 
-a = centroid_list
-b = centroid_scaled
+scaled_obj = []
+
+for i in range(len(centroid_list)):
+    vector = rs.PointSubtract(centroid_scaled[i],centroid_list[i])
+    move_obj = rs.MoveObject(geo_list[i], vector)
+    scaled_obj.append(move_obj)
+
+a = scaled_obj
