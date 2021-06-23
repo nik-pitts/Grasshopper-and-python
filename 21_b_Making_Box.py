@@ -3,6 +3,7 @@
 
 import rhinoscriptsyntax as rs
 import Rhino as rh
+from itertools import product
 
 start_p = -(size*n)/2
 points = []
@@ -28,10 +29,22 @@ box = rs.AddBox(points)
 boxes = []
 gp = rs.coerce3dpoint((start_p,0,0))
 
-for i in range(n):
-    xn = rs.coerce3dpoint((start_p+i*size,0,0))
-    vector = xn - gp
-    copy_box = rs.CopyObject(box, vector)
-    boxes.append(copy_box)
+combination_list = []
 
-a = boxes
+for i in range(n):
+    point = start_p + size*i
+    combination_list.append(point)
+
+combination_result = product(combination_list,repeat=3)
+
+#making copying vector
+
+cubes = []
+
+for i in combination_result:
+    coerce_point = rs.coerce3dpoint(i)
+    vector = coerce_point - gp
+    copy_box = rs.CopyObject(box, vector)
+    cubes.append(copy_box)
+
+a = cubes
