@@ -1,37 +1,64 @@
 import rhinoscriptsyntax as rs
-import ghpythonlib.treehelpers as th
-import Rhino
+import Rhino as rh
+from itertools import product
 
+start_p = -(size*n)/2
+points = []
 
-input_tree = th.tree_to_list(x,retrieve_base=None)
+x = [start_p, start_p+size]
+y = [start_p,start_p+size]
+z = [start_p,start_p+size]
 
-geo_list = []
+for u in x:
+    for v in y:
+        for w in z:
+            cor = (u,v,w)
+            points.append(cor)
 
-for list_list in input_tree:
-    for list in list_list:
-        for i in list:
-            coerce_ob = rs.coercebrep(i)
-            geo_list.append(coerce_ob)
+points = sorted(points, key=lambda x : (x[2],x[1]))
+points[2], points[3] = points[3], points[2]
+points[6], points[7] = points[7], points[6]
 
-centroid_list = []
+box = rs.AddBox(points)
 
-for i in geo_list:
-    geo_analysis = Rhino.Geometry.AreaMassProperties.Compute(i)
-    centroid = geo_analysis.Centroid
-    centroid_list.append(centroid)
+# copy boxes in x direction
 
-centroid_scaled = []
+boxes = []
+gp = rs.coerce3dpoint((start_p,0,0))
 
-for i in centroid_list:
-    centroid_scaled.append(i*y)
-    
-#making vectors for movement and move original cubes to moved points.
+combination_list = []
 
-scaled_obj = []
+for i in range(n):
+    point = start_p + size*i
+    combination_list.append(point)
 
-for i in range(len(centroid_list)):
-    vector = rs.PointSubtract(centroid_scaled[i],centroid_list[i])
-    move_obj = rs.MoveObject(geo_list[i], vector)
-    scaled_obj.append(move_obj)
+combination_result = product(combination_list,repeat=3)
 
-a = scaled_obj
+#making copying vector
+
+cubes = []
+
+for i in combination_result:
+    coerce_point = rs.coerce3dpoint(i)
+    vector = coerce_point - gp
+    copy_box = rs.CopyObject(box, vector)
+    cubes.append(copy_box)
+
+#making total bounding box
+
+bounding_pts = rs.BoundingBox(cubes)
+bounding_box = rs.coercebrep(rs.AddBox(bounding_pts))
+
+#finding centroid of bounding box
+
+geo_analysis = rh.Geometry.AreaMassProperties.Compute(bounding_box)
+centroid = geo_analysis.Centroid
+
+#move whole cubes from bounding box centroid to (0,0,0)
+
+origin_pt = rs.coerce3dpoint((0,0,0))
+cube_vec = centroid - origin_pt
+
+m_cubes = rs.MoveObject(cubes, cube_vec)
+
+a = m_cubes
