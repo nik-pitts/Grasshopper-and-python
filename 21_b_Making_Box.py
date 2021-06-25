@@ -1,6 +1,3 @@
-# Making box also in minus direction of coordinates.
-# Point range: -x< <x, -y< <y, -z< <z
-
 import rhinoscriptsyntax as rs
 import Rhino as rh
 from itertools import product
@@ -47,4 +44,8 @@ for i in combination_result:
     copy_box = rs.CopyObject(box, vector)
     cubes.append(copy_box)
 
-a = cubes
+#Making bounding box and finding centroid of bounding box
+    
+bounding_box = rs.BoundingBox(cubes)
+
+a = bounding_box
