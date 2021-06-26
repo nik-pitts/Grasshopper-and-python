@@ -22,12 +22,7 @@ points[6], points[7] = points[7], points[6]
 
 box = rs.AddBox(points)
 
-#a = box
-
-# copy boxes in x direction
-
-boxes = []
-gp = rs.coerce3dpoint((start_p,0,0))
+gp = rs.coerce3dpoint((0,0,0))
 
 combination_list = []
 
