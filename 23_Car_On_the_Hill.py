@@ -1,7 +1,7 @@
-hill_raw = rs.coercecurve(x)
-dom = rh.Geometry.Interval(0.00,1.00)
-hill = hill_raw.set
-sp = rs.CurveLength(hill, 0)
-print sp
+hill = rs.coercecurve(x)
+# reparametrize hill crv 0 to 1.
+hill.Domain = rh.Geometry.Interval(0.00,1.00)
 
-a=sp
+eval = rs.EvaluateCurve(hill, param)
+
+a = eval
